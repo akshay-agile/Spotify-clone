@@ -21,7 +21,7 @@ function secondsToMinutesSeconds(seconds) {
 
 async function getSongs(folder) {
     currFolder = folder
-    let a = await fetch(`http://127.0.0.1:3000/${folder}/`)
+    let a = await fetch(`/${folder}/`)
     let response = await a.text()
     let div = document.createElement("div")
     div.innerHTML = response
@@ -68,7 +68,7 @@ async function getSongs(folder) {
 }
 
 const playMusic = (track, pause = false) => {
-    currentSong.src = `http://127.0.0.1:3000/${currFolder}/` + track
+    currentSong.src = `/${currFolder}/` + track
 
     if (!pause) {
         currentSong.play()
@@ -114,7 +114,7 @@ async function displayAlbums() {
     //Load the playlist when mp3 is clicked
     Array.from(document.getElementsByClassName("card")).forEach(e => {
         e.addEventListener("click", async item => {
-            songs = await getSongs(`Projects/Project%202%20(Spotify)/songs/${item.currentTarget.dataset.folder}/`)
+            songs = await getSongs(`/songs/${item.currentTarget.dataset.folder}/`)
             playMusic(songs[0])
         })
     })
