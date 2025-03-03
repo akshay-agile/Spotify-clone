@@ -79,7 +79,7 @@ const playMusic = (track, pause = false) => {
 }
 
 async function displayAlbums() {
-    let a = await fetch(`Spotify-clone/songs/`)
+    let a = await fetch(`my-spotifyclone/songs/`)
     let response = await a.text()
     let div = document.createElement("div")
     div.innerHTML = response
