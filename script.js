@@ -79,7 +79,7 @@ const playMusic = (track, pause = false) => {
 }
 
 async function displayAlbums() {
-    let a = await fetch(`https://app.netlify.com/sites/my-spotifyclone/songs`)
+    let a = await fetch(`https://app.netlify.com/sites/my-spotifyclone/songs/`)
     let response = await a.text()
     let div = document.createElement("div")
     div.innerHTML = response
