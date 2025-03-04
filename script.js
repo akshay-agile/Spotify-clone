@@ -93,7 +93,7 @@ async function displayAlbums() {
         if (e.href.includes("/songs")) {
             let folder = e.href.split("/").slice(-2)[0]
             //Get the metadata of every folder
-            let a = await fetch(`/songs/${folder}/info.json`)
+            let a = await fetch(`https://app.netlify.com/sites/my-spotifyclone/songs//${folder}/info.json`)
             let response = await a.json()
             cardContainer.innerHTML = cardContainer.innerHTML + `<div data-folder="${folder}" class="card">
                                 <div class="play">
