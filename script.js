@@ -18,59 +18,48 @@ function secondsToMinutesSeconds(seconds) {
     return `${formattedMinutes}:${formattedSeconds}`;
 }
 
-
 async function getSongs(folder) {
-    currFolder = folder
-    // let response = await fetch(`https://my-spotifyclone.netlify.app/songs/${folder}/songs.json`)
-    let response = await fetch("https://my-spotifyclone.netlify.app/.netlify/functions/list-songs");
-     let data = await response.json();
-    songs = data.songs;
-    let div = document.createElement("div")
-    div.innerHTML = response
-    let as = div.getElementsByTagName("a")
+    currFolder = folder;
+    let response = await fetch("/.netlify/functions/list-songs");
+    let data = await response.json();
 
-    songs = []
-    for (let index = 0; index < as.length; index++) {
-        const element = as[index]
-        if (element.href.endsWith(".mp3") || (element.href.endsWith(".MP3"))) {
-            songs.push(element.href.split(`${folder}`)[1])
-        }
-    }
+    songs = data.songs.map(song => `${folder}/${song}`); // Ensure correct path
+    let songUL = document.querySelector(".songList ul");
+    songUL.innerHTML = "";
 
-    let songUL = document.querySelector(".songList").getElementsByTagName("ul")[0]
-    songUL.innerHTML = ""
     for (const song of songs) {
-        let songName = song.replaceAll("%20", " ")
-        songUL.innerHTML = songUL.innerHTML + `<li>
-                            <img class="invert" src="img/music.svg" alt="">
-                            <div class="info">
-                                
-                                <div>${songName}</div>
-                                <div>Harry</div>
-                            </div>
-                            <div class="playnow">
-                                <span>Play Now</span>
-                                <img class="invert" src="img/play.svg" alt="">
-                            </div> 
-                    </li>`
-
+        let songName = song.split("/").pop().replaceAll("%20", " ");
+        songUL.innerHTML += `<li>
+            <img class="invert" src="img/music.svg" alt="">
+            <div class="info">
+                <div>${songName}</div>
+                <div>Harry</div>
+            </div>
+            <div class="playnow">
+                <span>Play Now</span>
+                <img class="invert" src="img/play.svg" alt="">
+            </div>
+        </li>`;
     }
 
-    //Attach an event listener to each song
-    Array.from(document.querySelector(".songList").getElementsByTagName("li")).forEach(e => {
-        e.addEventListener("click", element => {
-            console.log(e.querySelector(".info").firstElementChild.innerHTML)
-            playMusic(e.querySelector(".info").firstElementChild.innerHTML.trim())
-        })
-    })
+    // Attach event listeners to play songs
+    document.querySelectorAll(".songList li").forEach(e => {
+        e.addEventListener("click", () => {
+            let songName = e.querySelector(".info div").innerText.trim();
+            playMusic(songName);
+        });
+    });
 
-    return songs
+    return songs;
+}
+
 
 
 }
 
 const playMusic = (track, pause = false) => {
-    currentSong.src = `https://app.netlify.com/sites/my-spotifyclone/songs/${currFolder}/` + track
+    // currentSong.src = `https://app.netlify.com/sites/my-spotifyclone/songs/${currFolder}/` + track
+currentSong.src = `/songs/${currFolder}/` + track;
 
     if (!pause) {
         currentSong.play()
@@ -81,7 +70,7 @@ const playMusic = (track, pause = false) => {
 }
 
 async function displayAlbums() {
-    let a = await fetch(`https://app.netlify.com/sites/my-spotifyclone/songs/`)
+    let a = await fetch("/.netlify/functions/listSongs");
     let response = await a.text()
     let div = document.createElement("div")
     div.innerHTML = response
