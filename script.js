@@ -55,8 +55,6 @@ async function getSongs(folder) {
 
 
 
-}
-
 const playMusic = (track, pause = false) => {
     // currentSong.src = `https://app.netlify.com/sites/my-spotifyclone/songs/${currFolder}/` + track
 currentSong.src = `/songs/${currFolder}/` + track;
