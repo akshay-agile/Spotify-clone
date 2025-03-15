@@ -20,7 +20,7 @@ function secondsToMinutesSeconds(seconds) {
 
 async function getSongs(folder) {
     currFolder = folder;
-    let response = await fetch("https://my-spotifyclone.netlify.app/.netlify/functions/listSongs");
+    let response = await fetch(`https://my-spotifyclone.netlify.app/songs/${folder}/songs.json`);
     let data = await response.json();
 
     songs = data.songs.map(song => `${folder}/${song}`); // Ensure correct path
@@ -57,7 +57,7 @@ async function getSongs(folder) {
 
 const playMusic = (track, pause = false) => {
     // currentSong.src = `https://app.netlify.com/sites/my-spotifyclone/songs/${currFolder}/` + track
-currentSong.src = `/songs/${currFolder}/` + track;
+currentSong.src = `https://my-spotifyclone.netlify.app/songs/${currFolder}/` + track;
 
     if (!pause) {
         currentSong.play()
@@ -68,7 +68,7 @@ currentSong.src = `/songs/${currFolder}/` + track;
 }
 
 async function displayAlbums() {
-    let a = await fetch("/.netlify/functions/listSongs");
+   let a = await fetch(`https://my-spotifyclone.netlify.app/songs/`);
     let response = await a.text()
     let div = document.createElement("div")
     div.innerHTML = response
@@ -82,7 +82,7 @@ async function displayAlbums() {
         if (e.href.includes("/songs")) {
             let folder = e.href.split("/").slice(-2)[0]
             //Get the metadata of every folder
-            let a = await fetch(`https://app.netlify.com/sites/my-spotifyclone/songs/${folder}/info.json`)
+           let a = await fetch(`https://my-spotifyclone.netlify.app/songs/${folder}/info.json`);
             let response = await a.json()
             cardContainer.innerHTML = cardContainer.innerHTML + `<div data-folder="${folder}" class="card">
                                 <div class="play">
