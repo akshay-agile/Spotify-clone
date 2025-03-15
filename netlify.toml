@@ -1,5 +1,6 @@
-[build]
-  functions = "netlify/functions"
+[functions]
+  directory = "netlify/functions"
+
 
 [[redirects]]
   from = "/songs/*"
