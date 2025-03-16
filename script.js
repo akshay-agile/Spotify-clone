@@ -20,7 +20,7 @@ function secondsToMinutesSeconds(seconds) {
 
 async function getSongs(folder) {
     currFolder = folder;
-    let response = await fetch(`https://my-spotifyclone.netlify.app/songs/${folder}/songs.json`);
+    let response = await fetch(`songs/${folder}/songs.json`);
     let data = await response.json();
 
     songs = data.songs.map(song => `${folder}/${song}`); // Ensure correct path
